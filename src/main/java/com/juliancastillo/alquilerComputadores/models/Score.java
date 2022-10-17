@@ -1,6 +1,8 @@
 package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +16,10 @@ public class Score implements Serializable{
     private Integer idScore;
     private Integer score;
 
+    @OneToOne
+    @JsonIgnoreProperties("score")
+    private Reservation reservation;
+
     /**
      *
      * @param idScore
@@ -25,9 +31,6 @@ public class Score implements Serializable{
         this.score = score;
     }
 
-    @OneToOne
-    @JsonIgnoreProperties("score")
-    private Reservation reservation;
 
     public Integer getIdScore() {
         return idScore;

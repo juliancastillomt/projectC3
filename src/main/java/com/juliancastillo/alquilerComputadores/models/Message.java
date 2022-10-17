@@ -1,6 +1,8 @@
 package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +16,16 @@ public class Message implements Serializable {
     private Integer idMessage;
     private String messageText;
 
+    @ManyToOne
+    @JoinColumn(name="idComputer")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Computer computer;
+
+    @ManyToOne
+    @JoinColumn(name = "idClient")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Client client;
+
     /**
      *
      * @param idMessage
@@ -24,17 +36,6 @@ public class Message implements Serializable {
         this.idMessage = idMessage;
         this.messageText = messageText;
     }
-
-    @ManyToOne
-    @JoinColumn(name="computerId")
-    @JsonIgnoreProperties({"messages", "reservations"})
-    private Computer computer;
-
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    @JsonIgnoreProperties({"messages", "reservations"})
-    private Client client;
-
 
     public Integer getIdMessage() {
         return idMessage;

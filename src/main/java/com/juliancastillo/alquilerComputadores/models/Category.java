@@ -1,6 +1,8 @@
 package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +18,10 @@ public class Category implements Serializable {
     private String name;
     private String description;
 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "category")
+    @JsonIgnoreProperties("category")
+    private List<Computer> computer;
+
     /**
      *
      * @param idCategory
@@ -28,10 +34,6 @@ public class Category implements Serializable {
         this.name = name;
         this.description = description;
     }
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "category")
-    @JsonIgnoreProperties("category")
-    private List<Computer> computer;
 
     public Integer getId() {
         return idCategory;

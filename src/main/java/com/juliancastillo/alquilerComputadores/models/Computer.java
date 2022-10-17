@@ -1,6 +1,8 @@
 package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +19,19 @@ public class Computer implements Serializable {
     private String brand;
     private Integer year;
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "idCategory")
+    @JsonIgnoreProperties("computer")
+    private Category category;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
+    @JsonIgnoreProperties({"computer","client"})
+    private List<Message> messages;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
+    @JsonIgnoreProperties({"computer","message"})
+    private List<Reservation> reservations;
 
     /**
      *
@@ -35,25 +50,12 @@ public class Computer implements Serializable {
         this.description = description;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
-    @JsonIgnoreProperties("computer")
-    private Category category;
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
-    @JsonIgnoreProperties({"computer","client"})
-    private List<Message> messages;
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
-    @JsonIgnoreProperties({"computer","message"})
-    private List<Reservation> reservations;
-
-    public Integer getId() {
-        return id;
+    public Integer getIdComputer() {
+        return idComputer;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdComputer(Integer idComputer) {
+        this.idComputer = idComputer;
     }
 
     public String getName() {

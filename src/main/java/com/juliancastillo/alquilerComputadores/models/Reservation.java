@@ -1,6 +1,8 @@
 package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +19,20 @@ public class Reservation implements Serializable{
     private Date devolutionDate;
     private String status = "created";
 
+    @ManyToOne
+    @JoinColumn(name = "idComputer")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Computer computer;
+
+    @ManyToOne
+    @JoinColumn(name = "idClient")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Client client;
+
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "reservation")
+    @JsonIgnoreProperties("reservation")
+    private Score score;
+
     /**
      *
      * @param idReservation
@@ -31,20 +47,6 @@ public class Reservation implements Serializable{
         this.devolutionDate = devolutionDate;
         this.status = status;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "computerId")
-    @JsonIgnoreProperties({"reservations", "messages"})
-    private Computer computer;
-
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    @JsonIgnoreProperties({"reservations", "messages"})
-    private Client client;
-
-    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "reservation")
-    @JsonIgnoreProperties("reservation")
-    private Score score;
 
     public Integer getIdReservation() {
         return idReservation;
