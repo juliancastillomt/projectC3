@@ -3,6 +3,8 @@ package com.juliancastillo.alquilerComputadores.repositories;
 import com.juliancastillo.alquilerComputadores.models.Computer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import com.juliancastillo.alquilerComputadores.repositories.ComputerCRUDRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +19,15 @@ public class ComputerRepository {
         return (List<Computer>) computerCrudRepository.findAll();
     }
 
-    public Optional<Computer> getComputer(int id){
+    public Optional<Computer> getById(int id){
         return computerCrudRepository.findById(id);
     }
 
-    public Computer save(Computer computer){
-        return computerCrudRepository.save(computer);
+    public Computer save(Computer c){
+        return computerCrudRepository.save(c);
+    }
+
+    public void delete(Computer c){
+        computerCrudRepository.delete(c);
     }
 }
