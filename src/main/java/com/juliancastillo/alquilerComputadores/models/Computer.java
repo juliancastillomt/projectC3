@@ -2,8 +2,10 @@ package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
 @Table(name="computer")
@@ -15,6 +17,22 @@ public class Computer implements Serializable {
     private String name;
     private String brand;
     private Integer model;
+    private Category categoryId;
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @param brand
+     * @param model
+     * @param categoryId
+     */
+    public Computer(Integer id, String name, String brand, Integer model, Category categoryId){
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.model = model;
+    }
 
     @ManyToOne
     @JoinColumn(name = "categoryId")

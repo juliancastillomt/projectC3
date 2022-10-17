@@ -2,9 +2,10 @@ package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
 @Table(name="category")
@@ -15,6 +16,19 @@ public class Category implements Serializable {
     private Integer id;
     private String name;
     private String description;
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @param description
+     */
+
+    public Category(Integer id, String name, String description){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "category")
     @JsonIgnoreProperties("category")
