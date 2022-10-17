@@ -2,10 +2,9 @@ package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import java.util.List;
 
 @Entity
 @Table(name="computer")
@@ -13,31 +12,41 @@ public class Computer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idComputer;
     private String name;
     private String brand;
-    private Integer model;
-    private Category categoryId;
+    private Integer year;
+    private String description;
 
     /**
      *
-     * @param id
+     * @param idComputer
      * @param name
      * @param brand
-     * @param model
-     * @param categoryId
+     * @param year
+     * @param description
      */
-    public Computer(Integer id, String name, String brand, Integer model, Category categoryId){
-        this.id = id;
+
+    public Computer(Integer idComputer, String name, String brand, Integer year, String description){
+        this.idComputer = idComputer;
         this.name = name;
         this.brand = brand;
-        this.model = model;
+        this.year = year;
+        this.description = description;
     }
 
     @ManyToOne
     @JoinColumn(name = "categoryId")
     @JsonIgnoreProperties("computer")
     private Category category;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
+    @JsonIgnoreProperties({"computer","client"})
+    private List<Message> messages;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "computer")
+    @JsonIgnoreProperties({"computer","message"})
+    private List<Reservation> reservations;
 
     public Integer getId() {
         return id;
@@ -63,12 +72,44 @@ public class Computer implements Serializable {
         this.brand = brand;
     }
 
-    public Integer getModel() {
-        return model;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setModel(Integer model) {
-        this.model = model;
+    public void setYear(Integer model) {
+        this.year = model;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
 }

@@ -2,10 +2,9 @@ package com.juliancastillo.alquilerComputadores.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.Serializable;
 import javax.persistence.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="category")
@@ -13,19 +12,19 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idCategory;
     private String name;
     private String description;
 
     /**
      *
-     * @param id
+     * @param idCategory
      * @param name
      * @param description
      */
 
-    public Category(Integer id, String name, String description){
-        this.id = id;
+    public Category(Integer idCategory, String name, String description){
+        this.idCategory = idCategory;
         this.name = name;
         this.description = description;
     }
@@ -35,11 +34,11 @@ public class Category implements Serializable {
     private List<Computer> computer;
 
     public Integer getId() {
-        return id;
+        return idCategory;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idCategory = id;
     }
 
     public String getName() {
@@ -56,6 +55,14 @@ public class Category implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Computer> getComputer() {
+        return computer;
+    }
+
+    public void setComputer(List<Computer> computer) {
+        this.computer = computer;
     }
 
 }
